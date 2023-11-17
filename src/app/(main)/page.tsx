@@ -6,12 +6,6 @@ type TProps = {
 };
 
 export default function Home({ searchParams }: TProps) {
-  const render = () => {
-    const status = searchParams?.status;
-
-    if (status === 'authenticated') return <Authenticated />;
-    else return <Login />;
-  };
-
-  return <main>{render()}</main>;
+  const status = searchParams?.status;
+  return <main>{status === 'authenticated' ? <Authenticated /> : <Login />}</main>;
 }
