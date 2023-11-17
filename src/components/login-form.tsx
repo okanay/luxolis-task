@@ -8,6 +8,7 @@ import { loginFormAction } from '@/actions/login-form-action';
 import { useLoginValidation } from '@/hooks/useLoginValidation';
 import { TActionFail, TActionSuccess } from '@/types/login-action-response';
 import { useRouter } from 'next/navigation';
+import { LoginInputError } from '@/components/login-input-error';
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -48,9 +49,7 @@ export const LoginForm = () => {
           name={'email'}
           type={'email'}
           placeholder={'Email Address'}
-          className={`${
-            isEmailValid ? 'border-zinc-50' : 'border-rose-400'
-          } h-12 w-full rounded-lg border-2 bg-primary-400  pl-12 pr-4 text-zinc-50 placeholder-zinc-50/80 transition-colors duration-500 focus:placeholder-zinc-50/0 focus:outline-none`}
+          className={`h-12 w-full rounded-lg border-2 border-zinc-50 bg-primary-400  pl-12 pr-4 text-zinc-50 placeholder-zinc-50/80 transition-colors duration-500 focus:placeholder-zinc-50/0 focus:outline-none`}
         />
         <div
           data-name={'email-heroicon-container'}
@@ -59,28 +58,19 @@ export const LoginForm = () => {
           <EnvelopeIcon className={'h-[24px] w-[24px] text-zinc-50'} />
         </div>
       </div>
-      {!isEmailValid && (
-        <>
-          <div
-            data-name={'email-error-container'}
-            className={'flex w-full flex-col gap-2 rounded-lg bg-rose-200 px-4 py-2 text-rose-600'}
-          >
-            <div className={'flex items-start justify-start gap-2'}>
-              <ExclamationCircleIcon className={'h-[24px] w-[24px] flex-shrink-0'} />
-              <p>{formattedErrors?.email?._errors.at(0)}</p>
-            </div>
-          </div>
-        </>
-      )}
+      <LoginInputError
+        isError={!isEmailValid}
+        message={formattedErrors?.email?._errors.at(0) as string}
+        name={'email-error-container'}
+      />
+
       <div data-name={'password-container'} className={'relative h-full w-full'}>
         <input
           {...register('password')}
           name={'password'}
           type={'password'}
           placeholder={'Password'}
-          className={`${
-            isPasswordValid ? 'border-zinc-50' : 'border-rose-400'
-          } h-12 w-full rounded-lg border-2 bg-primary-400  pl-12 pr-4 text-zinc-50 placeholder-zinc-50/80 transition-colors duration-500 focus:placeholder-zinc-50/0 focus:outline-none`}
+          className={`h-12 w-full rounded-lg border-2 border-zinc-50 bg-primary-400  pl-12 pr-4 text-zinc-50 placeholder-zinc-50/80 transition-colors duration-500 focus:placeholder-zinc-50/0 focus:outline-none`}
         />
         <div
           data-name={'password-heroicon-container'}
@@ -89,19 +79,12 @@ export const LoginForm = () => {
           <LockClosedIcon className={'h-[24px] w-[24px] text-zinc-50'} />
         </div>
       </div>
-      {!isPasswordValid && (
-        <>
-          <div
-            data-name={'password-error-container'}
-            className={'flex w-full flex-col gap-2 rounded-lg bg-rose-200 px-4 py-2 text-rose-600'}
-          >
-            <div className={'flex items-start justify-start gap-2'}>
-              <ExclamationCircleIcon className={'h-[24px] w-[24px] flex-shrink-0'} />
-              <p>{formattedErrors?.password?._errors.at(0)}</p>
-            </div>
-          </div>
-        </>
-      )}
+      <LoginInputError
+        isError={!isPasswordValid}
+        message={formattedErrors?.password?._errors.at(0) as string}
+        name={'password-error-container'}
+      />
+
       <div data-name={'login-submit-button-container'} className={'mt-8 flex flex-col items-end gap-4'}>
         <LoginButton />
         <button type={'button'} className={'text-lg text-zinc-50'}>
