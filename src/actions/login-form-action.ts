@@ -8,6 +8,8 @@ import { TAction } from '@/types/login-action-response';
 // Later, the input values are compared with the <testUserValue>, and error checks are performed.
 
 export const loginFormAction = async (formData: FormData) => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
   let initialResponse: TAction = { ok: true, code: 201 };
   let response: TAction = initialResponse;
 
