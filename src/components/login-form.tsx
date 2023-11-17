@@ -7,14 +7,12 @@ import { LoginButton } from '@/components/login-button';
 import { loginFormAction } from '@/actions/login-form-action';
 import { useLoginValidation } from '@/hooks/useLoginValidation';
 import { TActionFail, TActionSuccess } from '@/types/login-action-response';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
   const router = useRouter();
-  const params = useParams();
-
   const { register, getValues } = useForm();
-  const { checkLoginInput, combineErrorsMessages, clearError, formattedErrors } = useLoginValidation();
+  const { checkLoginInput, clearError, formattedErrors } = useLoginValidation();
 
   // These constants are updated when the form component is rendered, and they are used for styling input values.
   const isError = Boolean(formattedErrors?._errors);
@@ -61,6 +59,19 @@ export const LoginForm = () => {
           <EnvelopeIcon className={'h-[24px] w-[24px] text-zinc-50'} />
         </div>
       </div>
+      {!isEmailValid && (
+        <>
+          <div
+            data-name={'email-error-container'}
+            className={'flex w-full flex-col gap-2 rounded-lg bg-rose-200 px-4 py-2 text-rose-600'}
+          >
+            <div className={'flex items-start justify-start gap-2'}>
+              <ExclamationCircleIcon className={'h-[24px] w-[24px] flex-shrink-0'} />
+              <p>{formattedErrors?.email?._errors.at(0)}</p>
+            </div>
+          </div>
+        </>
+      )}
       <div data-name={'password-container'} className={'relative h-full w-full'}>
         <input
           {...register('password')}
@@ -78,19 +89,19 @@ export const LoginForm = () => {
           <LockClosedIcon className={'h-[24px] w-[24px] text-zinc-50'} />
         </div>
       </div>
-      {isError &&
-        combineErrorsMessages().map((error, index) => (
+      {!isPasswordValid && (
+        <>
           <div
-            key={index + 'login-error'}
-            data-name={'email-error-container'}
+            data-name={'password-error-container'}
             className={'flex w-full flex-col gap-2 rounded-lg bg-rose-200 px-4 py-2 text-rose-600'}
           >
             <div className={'flex items-start justify-start gap-2'}>
               <ExclamationCircleIcon className={'h-[24px] w-[24px] flex-shrink-0'} />
-              <p>{error}</p>
+              <p>{formattedErrors?.password?._errors.at(0)}</p>
             </div>
           </div>
-        ))}
+        </>
+      )}
       <div data-name={'login-submit-button-container'} className={'mt-8 flex flex-col items-end gap-4'}>
         <LoginButton />
         <button type={'button'} className={'text-lg text-zinc-50'}>

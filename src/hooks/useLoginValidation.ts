@@ -19,7 +19,11 @@ export const useLoginValidation = () => {
     return validation.success;
   };
 
+  // Clears all captured errors.
+  const clearError = () => setFormattedErrors(undefined);
+
   // Transfers all errors to an <array>.
+  // Deprecated.
   const combineErrorsMessages = (): string[] => {
     let errorMessage = [] as string[];
 
@@ -29,8 +33,5 @@ export const useLoginValidation = () => {
     return errorMessage;
   };
 
-  // Clears all captured errors.
-  const clearError = () => setFormattedErrors(undefined);
-
-  return { combineErrorsMessages, formattedErrors, checkLoginInput, clearError };
+  return { formattedErrors, checkLoginInput, clearError };
 };
