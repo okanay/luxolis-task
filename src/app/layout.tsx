@@ -1,10 +1,7 @@
 import './globals.css';
-import type { Metadata } from 'next';
-
+import { roboto } from '@/libs/next-fonts/roboto';
 import { Providers } from '@/providers/providers';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Luxolis | Login Task',
@@ -14,7 +11,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <Providers>{children}</Providers>
       </body>
     </html>
