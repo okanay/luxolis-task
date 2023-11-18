@@ -10,9 +10,9 @@ export const LoginInputError: TProps = ({ isError, message }) => {
   if (!isError) return;
 
   return (
-    <div className={'flex w-full flex-col gap-2 rounded-lg bg-rose-100 px-4 py-2 text-rose-400'}>
+    <div className={'flex w-full flex-col gap-2 rounded-lg bg-rose-100 px-4 py-2 text-xs text-rose-400'}>
       <div className={'flex items-start justify-start gap-2'}>
-        <ExclamationCircleIcon className={'h-[24px] w-[24px] flex-shrink-0'} />
+        <ExclamationCircleIcon className={'h-[20px] w-[20px] flex-shrink-0'} />
         <p>{message}</p>
       </div>
     </div>

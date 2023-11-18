@@ -1,6 +1,6 @@
 'use client';
 
-import { EnvelopeIcon, ExclamationCircleIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 
 import { useForm } from 'react-hook-form';
 import { LoginButton } from '@/components/login-button';
@@ -9,13 +9,17 @@ import { useLoginValidation } from '@/hooks/useLoginValidation';
 import { TActionFail, TActionSuccess } from '@/types/login-action-response';
 import { useRouter } from 'next/navigation';
 import { LoginInputError } from '@/components/login-input-error';
+import { useAtom } from 'jotai';
+import { loginStatusAtom } from '@/atoms/login-status-atom';
 
 export const LoginForm = () => {
+  const [loginStatus, setLoginStatus] = useAtom(loginStatusAtom);
+
   const router = useRouter();
   const { register, getValues } = useForm();
   const { checkLoginInput, clearError, formattedErrors } = useLoginValidation();
 
-  // These constants are updated when the form component is rendered, and they are used for styling input values.
+  // These constants are updated when the <LoginForm> component is rendered, and they are used for styling.
   const isError = Boolean(formattedErrors?._errors);
   const isEmailValid = Boolean(!formattedErrors?.email);
   const isPasswordValid = Boolean(!formattedErrors?.password);
@@ -38,7 +42,12 @@ export const LoginForm = () => {
 
   // This function runs when there is a login error.
   const handleLoginFail = (response: TActionFail) => {
-    window.alert(response.errorMessage);
+    setLoginStatus({
+      isError: true,
+      code: response.code,
+      path: response.path,
+      errorMessage: response.errorMessage,
+    });
   };
 
   return (
@@ -85,7 +94,7 @@ export const LoginForm = () => {
         name={'password-error-container'}
       />
 
-      <div data-name={'login-submit-button-container'} className={'mt-8 flex flex-col items-end gap-4'}>
+      <div data-name={'form-buttons-container'} className={'mt-8 flex flex-col items-end gap-4'}>
         <LoginButton />
         <button type={'button'} className={'text-lg text-zinc-50'}>
           Forgot Password?
