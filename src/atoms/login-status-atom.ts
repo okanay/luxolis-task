@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 
 type TLoginStatusOk = { isError: false };
-type TLoginStatusFail = { isError: true; path: 'email' | 'password'; errorMessage: string; code?: number };
+type TLoginStatusFail = { isError: true; errorMessage: string; code?: number; path?: 'email' | 'password' };
 
 type TLoginStatusAtom = TLoginStatusOk | TLoginStatusFail;
 

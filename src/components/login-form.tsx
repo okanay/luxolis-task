@@ -44,8 +44,6 @@ export const LoginForm = () => {
   const handleLoginFail = (response: TActionFail) => {
     setLoginStatus({
       isError: true,
-      code: response.code,
-      path: response.path,
       errorMessage: response.errorMessage,
     });
   };
