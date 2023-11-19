@@ -10,14 +10,13 @@ import { TActionFail, TActionSuccess } from '@/types/login-action-response';
 import { useRouter } from 'next/navigation';
 import { LoginInputError } from '@/components/login-input-error';
 import { useAtom } from 'jotai';
-import { loginStatusAtom } from '@/atoms/login-status-atom';
+import { notificationAtom } from '@/atoms/notification-atom';
 
 export const LoginForm = () => {
-  const [loginStatus, setLoginStatus] = useAtom(loginStatusAtom);
-
   const router = useRouter();
   const { register, getValues } = useForm();
   const { checkLoginInput, clearError, formattedErrors } = useLoginValidation();
+  const [_, setNotification] = useAtom(notificationAtom);
 
   // These constants are updated when the <LoginForm> component is rendered, and they are used for styling.
   const isError = Boolean(formattedErrors?._errors);
@@ -42,9 +41,10 @@ export const LoginForm = () => {
 
   // This function runs when there is a login error.
   const handleLoginFail = (response: TActionFail) => {
-    setLoginStatus({
-      isError: true,
-      errorMessage: response.errorMessage,
+    setNotification({
+      isOpen: true,
+      type: 'login-error',
+      message: response.errorMessage,
     });
   };
 
